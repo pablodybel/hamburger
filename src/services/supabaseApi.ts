@@ -1,4 +1,5 @@
 import type { SupabaseClient } from '@supabase/supabase-js'
+import { uid } from '@/lib/format'
 import type { Api } from './types'
 import type { Category, MenuCategory, Order, Product, StaffSession, VariantGroup } from '@/types/domain'
 
@@ -152,7 +153,7 @@ export function createSupabaseApi(sb: SupabaseClient): Api {
 
     async uploadProductImage(file) {
       const ext = file.name.split('.').pop() ?? 'jpg'
-      const path = `${crypto.randomUUID()}.${ext}`
+      const path = `${uid()}.${ext}`
       must(await sb.storage.from('product-images').upload(path, file, { cacheControl: '31536000', upsert: false }))
       return sb.storage.from('product-images').getPublicUrl(path).data.publicUrl
     },

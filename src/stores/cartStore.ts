@@ -1,5 +1,6 @@
 import { create } from 'zustand'
 import { persist, createJSONStorage } from 'zustand/middleware'
+import { uid } from '@/lib/format'
 
 export interface CartLine {
   key: string
@@ -44,7 +45,7 @@ export const useCart = create<CartState>()(
           const existing = s.lines.find((l) => lineSignature(l) === sig)
           if (existing)
             return { lines: s.lines.map((l) => (l === existing ? { ...l, quantity: Math.min(50, l.quantity + line.quantity) } : l)) }
-          return { lines: [...s.lines, { ...line, key: crypto.randomUUID() }] }
+          return { lines: [...s.lines, { ...line, key: uid() }] }
         }),
       setQty: (key, qty) =>
         set((s) => ({

@@ -12,8 +12,8 @@ export function CartBar({ count, total, onClick }: { count: number; total: numbe
       >
         <span className="grid size-10 place-items-center rounded-xl bg-mustard font-display text-xl text-ink">{count}</span>
         <span className="text-left">
-          <span className="block text-[15px] font-bold">Ver mi pedido</span>
-          <span className="label-mono block text-paper/60">{count === 1 ? '1 producto' : `${count} productos`}</span>
+          <span className="block text-[15px] font-bold">Revisar y enviar pedido</span>
+          <span className="label-mono block text-paper/60">{count === 1 ? '1 producto · sin enviar' : `${count} productos · sin enviar`}</span>
         </span>
         <span className="ml-auto font-mono text-base font-extrabold">{money(total)}</span>
         <ArrowRight className="size-5 text-mustard" />

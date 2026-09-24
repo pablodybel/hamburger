@@ -3,6 +3,7 @@
 // abrí /menu en una pestaña y /kitchen en otra y vas a ver el "realtime".
 
 import type { Api } from './types'
+import { uid } from '@/lib/format'
 import type {
   Category, DiningTable, MenuCategory, Order, OrderStatus, Product, StaffSession, Variant, VariantGroup,
 } from '@/types/domain'
@@ -19,7 +20,7 @@ interface DemoDb {
   orders: Order[]
 }
 
-const id = () => crypto.randomUUID()
+const id = uid
 const delay = (ms = 180) => new Promise((r) => setTimeout(r, ms))
 
 function burgerGroups(): VariantGroup[] {
