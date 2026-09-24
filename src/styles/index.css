@@ -1,0 +1,155 @@
+@import "tailwindcss";
+
+/* =====================================================================
+   LA PLANCHA — sistema visual
+   Cliente/Admin: póster de diner impreso (papel crema, tinta, ketchup,
+   mostaza, sombras duras). Cocina: comanderas térmicas sobre acero.
+   ===================================================================== */
+
+@theme {
+  --color-paper: #f3eadb;
+  --color-paper-2: #e9dcc5;
+  --color-paper-3: #dccbab;
+  --color-ink: #1b1512;
+  --color-ink-soft: #5b4c42;
+  --color-ink-mute: #8d7b6c;
+  --color-ketchup: #d7301f;
+  --color-ketchup-deep: #a31f12;
+  --color-mustard: #f2a900;
+  --color-mustard-soft: #ffd66b;
+  --color-pickle: #4e7a27;
+  --color-pickle-soft: #cfe0a8;
+  --color-bun: #e4ae62;
+  --color-grill: #0e0d0b;
+  --color-steel: #24221f;
+  --color-steel-2: #34312d;
+  --color-thermal: #f8f5ec;
+
+  --font-display: "Bagel Fat One", "Familjen Grotesk", system-ui, sans-serif;
+  --font-sans: "Familjen Grotesk", system-ui, sans-serif;
+  --font-mono: "Martian Mono", ui-monospace, monospace;
+  --font-kds: "Barlow Condensed", "Familjen Grotesk", sans-serif;
+
+  --shadow-hard: 4px 4px 0 0 var(--color-ink);
+  --shadow-hard-sm: 2px 2px 0 0 var(--color-ink);
+  --shadow-hard-lg: 7px 7px 0 0 var(--color-ink);
+
+  --animate-rise: rise 0.5s cubic-bezier(0.2, 0.9, 0.2, 1) both;
+  --animate-sheet: sheet 0.38s cubic-bezier(0.2, 0.9, 0.2, 1) both;
+  --animate-wobble: wobble 3.5s ease-in-out infinite;
+  --animate-flash: flash 1s steps(2, jump-none) infinite;
+  --animate-drop: drop 0.55s cubic-bezier(0.2, 1.3, 0.3, 1) both;
+  --animate-sizzle: sizzle 1.6s ease-in-out infinite;
+
+  @keyframes rise { from { opacity: 0; transform: translateY(14px) } to { opacity: 1; transform: none } }
+  @keyframes sheet { from { transform: translateY(100%) } to { transform: none } }
+  @keyframes wobble { 0%, 100% { transform: rotate(-7deg) } 50% { transform: rotate(-3deg) scale(1.03) } }
+  @keyframes flash { 0% { opacity: 1 } 100% { opacity: 0.25 } }
+  @keyframes drop { from { opacity: 0; transform: translateY(-40px) rotate(-2deg) } to { opacity: 1; transform: none } }
+  @keyframes sizzle { 0%, 100% { transform: translateY(0) scaleY(1); opacity: 0.7 } 50% { transform: translateY(-6px) scaleY(1.15); opacity: 1 } }
+}
+
+@layer base {
+  html { -webkit-tap-highlight-color: transparent; }
+  body {
+    @apply bg-paper text-ink font-sans antialiased;
+    font-feature-settings: "ss01", "tnum";
+  }
+  ::selection { @apply bg-mustard text-ink; }
+  button { cursor: pointer; }
+  :focus-visible { outline: 3px solid var(--color-ketchup); outline-offset: 2px; }
+}
+
+@layer components {
+  /* Grano de papel impreso */
+  .paper-grain {
+    position: relative;
+    isolation: isolate;
+  }
+  .paper-grain::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    opacity: 0.35;
+    mix-blend-mode: multiply;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .42 0 0 0 0 .33 0 0 0 0 .24 0 0 0 .55 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  /* Tramado de puntos (halftone) */
+  .halftone {
+    background-image: radial-gradient(color-mix(in oklab, currentColor 38%, transparent) 1.3px, transparent 1.6px);
+    background-size: 9px 9px;
+  }
+
+  /* Tira de azulejos a cuadros de diner */
+  .checker {
+    height: 14px;
+    background:
+      conic-gradient(var(--color-ketchup) 25%, var(--color-paper) 0 50%, var(--color-ketchup) 0 75%, var(--color-paper) 0)
+      0 0 / 14px 14px;
+  }
+  .checker-ink {
+    background:
+      conic-gradient(var(--color-ink) 25%, var(--color-paper) 0 50%, var(--color-ink) 0 75%, var(--color-paper) 0)
+      0 0 / 10px 10px;
+  }
+
+  /* Borde dentado de ticket (abajo) */
+  .zigzag-bottom {
+    --z: 9px;
+    mask:
+      conic-gradient(from -45deg at bottom, #0000, #000 1deg 89deg, #0000 90deg) 50% / calc(2 * var(--z)) 100%;
+    padding-bottom: calc(var(--z) + 6px);
+  }
+  .zigzag-top {
+    --z: 8px;
+    mask:
+      conic-gradient(from 135deg at top, #0000, #000 1deg 89deg, #0000 90deg) 50% / calc(2 * var(--z)) 100%;
+    padding-top: calc(var(--z) + 4px);
+  }
+
+  .dash-rule {
+    border: 0;
+    height: 2px;
+    background: repeating-linear-gradient(90deg, currentColor 0 7px, transparent 7px 12px);
+    opacity: 0.3;
+  }
+
+  /* Botón brutal con sombra dura */
+  .btn-hard {
+    @apply inline-flex items-center justify-center gap-2 rounded-xl border-2 border-ink font-bold transition-all;
+    box-shadow: var(--shadow-hard);
+  }
+  .btn-hard:active:not(:disabled) { transform: translate(3px, 3px); box-shadow: 1px 1px 0 0 var(--color-ink); }
+  .btn-hard:disabled { @apply opacity-50 cursor-not-allowed; }
+
+  .card-hard {
+    @apply rounded-2xl border-2 border-ink bg-paper;
+    box-shadow: var(--shadow-hard);
+  }
+
+  .label-mono {
+    @apply font-mono text-[10px] font-semibold uppercase tracking-[0.14em];
+  }
+
+  /* Fondo metálico cepillado para el KDS */
+  .brushed-steel {
+    background-color: var(--color-grill);
+    background-image:
+      repeating-linear-gradient(90deg, rgb(255 255 255 / 0.018) 0 1px, transparent 1px 3px),
+      radial-gradient(120% 80% at 50% -10%, rgb(242 169 0 / 0.08), transparent 60%);
+  }
+  .rail {
+    background: linear-gradient(180deg, #5e5a54 0%, #2a2724 45%, #8a857d 55%, #3b3834 100%);
+    box-shadow: 0 6px 14px rgb(0 0 0 / 0.6);
+  }
+
+  .no-scrollbar { scrollbar-width: none; }
+  .no-scrollbar::-webkit-scrollbar { display: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
+}

@@ -1,0 +1,9 @@
+{
+  "name": "La Plancha · Smash Burgers",
+  "short_name": "La Plancha",
+  "start_url": "/menu",
+  "display": "standalone",
+  "background_color": "#F3EADB",
+  "theme_color": "#D7301F",
+  "icons": [{ "src": "/favicon.svg", "sizes": "any", "type": "image/svg+xml" }]
+}

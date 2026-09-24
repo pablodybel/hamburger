@@ -1,0 +1,1 @@
+-- Los datos iniciales viven en migrations/20260924205002_seed_menu.sql
